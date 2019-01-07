@@ -36,13 +36,20 @@ def download_dataset():
     try :
         for month in range(start_month, current_month + 1):
             game_list = get_game_list(year=year, month=month)
+            # print(game_list)
             game_series_ids = [int(game['id']) for game in game_list]
             for game_series_id in tqdm(game_series_ids, ascii=True, desc="Downloading month {} of {} data..".format(month, year)):
                 game_sets = get_game_details(game_series_id)
+                # print(game_sets)
                 for game in game_sets:
                     single_game = []
                     for team in game['participants_teams']:
+                        pre = ''
                         for player in team['players']:
+                            if player['title'] == pre:
+                                # print(player['title'])
+                                continue
+                            pre = player['title']
                             single_game.append(player['title'])
                     single_game.append(game['participants_teams'][0]['is_win'])
                     dataset.append(single_game)
@@ -163,3 +170,5 @@ def get_dataset(batch_size):
     test_data = test_data.batch(batch_size)
 
     return train_data, test_data
+
+# download_dataset()
