@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import random
 
-df = pd.read_csv('/Users/heqi.song/work/Winnet/data/data.csv')
+df = pd.read_csv('data/data.csv')
 df.head()
 
 x = [0,12,13,14,15]
@@ -20,7 +20,7 @@ for _, row in df_2.iterrows():
 
 data = pd.DataFrame(data)
 
-data.to_csv('/Users/heqi.song/work/Winnet/data/clean_data.csv', index=False, header=False)
+data.to_csv('data/clean_data.csv', index=False, header=False)
 labels_df = data[data.columns[10]]
 data_df = data[data.columns[:10]]
 
