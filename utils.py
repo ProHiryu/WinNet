@@ -43,23 +43,29 @@ def download_dataset():
                 # print(game_sets)
                 for game in game_sets:
                     single_game = []
-                    for team in game['participants_teams']:
+                    for i, team in enumerate(game['participants_teams']):
+                        single_game.append(i)
+                        single_game.append(team['name'])
                         pre = ''
                         for player in team['players']:
                             if player['title'] == pre:
                                 # print(player['title'])
                                 continue
                             pre = player['title']
+                            single_game.append(player['name'])
                             single_game.append(player['title'])
-                    single_game.append(game['participants_teams'][0]['is_win'])
-                    dataset.append(single_game)
+                        
+                        single_game.append(game['participants_teams'][i]['is_win'])
+                        dataset.append(single_game)
+                        single_game = []
+                        # print(dataset)
             print("Download month {} completed!!".format(month))
     except TypeError:
         pass
 
     df = pd.DataFrame(dataset)
     safe_mkdir(save_path)
-    df.to_csv(save_path + save_file_name)
+    df.to_csv(save_path + save_file_name, index=False)
 
 
 
@@ -171,4 +177,4 @@ def get_dataset(batch_size):
 
     return train_data, test_data
 
-# download_dataset()
+download_dataset()
